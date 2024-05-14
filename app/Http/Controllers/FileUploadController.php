@@ -19,8 +19,12 @@ class FileUploadController extends Controller
             //$namaFile = $request->berkas->getClientOriginalName();
             $extfile = $request->berkas->getClientOriginalName();
             $namaFile = 'web-'.time().".".$extfile;
-            $path = $request->berkas->storeAs('uploads', $namaFile);
+            $path = $request->berkas->storeAs('public', $namaFile);
+
+            $partBaru = asset('storage/'.$namaFile);
             echo "proses upload berhasil, file berada di: $path";
+            echo "<br>";
+            echo "Tampilan link:<a href='$partBaru'>$partBaru</a>";
     }
 }
 
