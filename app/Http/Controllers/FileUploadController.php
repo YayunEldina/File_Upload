@@ -11,49 +11,23 @@ class FileUploadController extends Controller
     }
 
     public function prosesfileUpload(Request $request){
-        //dump($request->berkas);
-        //dump($request->file('file'));
-        //return "Pemrosesan file upload di sini";
+        
         $request->validate([
+            'nama_gambar' => 'required',
             'berkas'=>'required|file|image|max:500',]);
-            //$namaFile = $request->berkas->getClientOriginalName();
-            $extfile = $request->berkas->getClientOriginalName();
-            $namaFile = 'web-'.time().".".$extfile;
+            $extension = $request->berkas->getClientOriginalExtension();
+            // $extfile = $request->berkas->getClientOriginalName();
+            $namaFile = $request->nama_gambar.'.'.$extension;
 
             $path = $request->berkas->move('gambar', $namaFile);
             $path = str_replace("\\","//", $path);
-            echo "Variabel path berisi $path <br>";
+            // echo "Variabel path berisi $path <br>";
 
-            $partBaru = asset('gambar/'.$namaFile);
-            echo "proses upload berhasil, file berada di: $path";
+            $pathBaru = asset('gambar/'.$namaFile);
+            echo "Gambar berhasil di upload ke:<a href='$pathBaru'>$namaFile</a>";
             echo "<br>";
-            echo "Tampilan link:<a href='$partBaru'>$partBaru</a>";
+            echo "<img src='$pathBaru' alt='$namaFile' style='max-width: 500px;
+            height: auto;'>";
     }
 }
 
-//     public function prosesfileUpload(Request $request){
-//         // dump($request->berkas);
-//         //dump($request->file('file'));
-//         //return "Pemrosesan file upload di sini";
-//         if($request->hasFile('berkas'))
-//         {
-//             echo "path(): ".$request->berkas->path();
-//             echo "<br>";
-//             echo "extension(): ".$request->berkas->extension();
-//             echo "<br>";
-//             echo "getClientOriginalExtension();" .
-//                 $request->berkas->getClientOriginalExtension();
-//             echo "<br>";
-//             echo "getMimeType(): ".$request->berkas->getMimeType();
-//             echo "<br>";
-//             echo "getClientOriginalName(): ".
-//                 $request->berkas->getClientOriginalName();
-//             echo "<br>";
-//             echo "getSize(): ".$request->berkas->getSize();
-//         }
-//         else
-//         {
-//             echo "Tidak ada berkas yang di upload";
-//         }
-//     }
-// }
